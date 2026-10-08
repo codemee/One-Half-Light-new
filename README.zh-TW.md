@@ -26,7 +26,7 @@
 | 資料夾背景 | `blue` | `#B8DDF0` | 淡藍底，搭配深灰文字 |
 | 命令名稱 | `brightYellow` | `#9C6500` | 加深的琥珀色 |
 | 一般輸入文字 | `white` | `#555760` | 較深的灰色 |
-| 行內建議的基礎顏色 | `brightWhite` | `#FFFFFF` | 經 PSReadLine 變暗後呈現灰色 |
+| 數字與行內建議的基礎顏色 | `brightWhite` | `#737680` | 中灰；建議另有變暗效果 |
 
 這些用途以 PowerShell 與 PSReadLine 的預設樣式為前提。自訂設定或不同版本可能使用其他顏色。
 
@@ -46,9 +46,21 @@ $PSStyle.FileInfo.Directory = $PSStyle.Foreground.FromRgb(0x006B99)
 
 PSReadLine 預設使用 ANSI 亮黃色顯示命令名稱。本配色將 `brightYellow` 改為較深的琥珀色，與背景的對比約為 **4.71:1**，讓命令在淺色背景上更清楚。
 
+### 數字輸入
+
+PSReadLine 預設以 ANSI 亮白色顯示數字，與行內建議共用 `brightWhite`。本配色將此欄位設為中灰 `#737680`，讓數字在淺色背景上可見，不必另外修改 PowerShell 設定檔。
+
+若先前曾單獨設定數字顏色，請移除 `$PROFILE` 中對應的設定並重新開啟 PowerShell，或在目前工作階段恢復預設色盤位置：
+
+```powershell
+Set-PSReadLineOption -Colors @{ Number = [ConsoleColor]::White }
+```
+
+`ConsoleColor.White` 選取 ANSI 亮白色位置，在本配色中實際呈現中灰色。修改 Terminal 的 `brightWhite` 會同時影響數字與建議。
+
 ### 行內建議
 
-較新的 PSReadLine 預設使用「變暗、斜體的 ANSI 亮白色」顯示行內建議。本配色提高 `brightWhite` 的亮度，並加深一般輸入文字使用的 `white`，拉開建議與已輸入文字的差異。建議文字的變暗與斜體效果仍由 PSReadLine 套用。
+較新的 PSReadLine 預設使用「變暗、斜體的 ANSI 亮白色」顯示行內建議。本配色將 `brightWhite` 設為中灰 `#737680`，一般輸入文字的 `white` 則為深灰 `#555760`。建議文字仍會套用變暗與斜體效果，因此可能比已輸入文字更深。
 
 這也會影響其他程式使用 ANSI 白色與亮白色時的顯示。如果你的版本或自訂設定使用不同的建議樣式，或希望建議再淡一些，可直接設定為不帶變暗效果的斜體灰色 `#969696`：
 
@@ -56,7 +68,7 @@ PSReadLine 預設使用 ANSI 亮黃色顯示命令名稱。本配色將 `brightY
 Set-PSReadLineOption -Colors @{ InlinePrediction = "`e[38;2;150;150;150;3m" }
 ```
 
-## 保存選用的 PowerShell 設定
+## 保存 PowerShell 設定
 
 上述 PowerShell 命令只影響目前的工作階段。若要在新開的 PowerShell 中繼續套用，請將需要的命令加入 `$PROFILE`。
 

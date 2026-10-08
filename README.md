@@ -1,6 +1,6 @@
 [繁體中文](README.zh-TW.md)
 
-Just copy the content of  [scheme.json](scheme.json) and paste into your settings.json:
+Copy the content of [scheme.json](scheme.json) into your settings.json:
 
 ```json
 {
@@ -17,7 +17,7 @@ Just copy the content of  [scheme.json](scheme.json) and paste into your setting
             "brightGreen": "#98C379",
             "brightPurple": "#C577DD",
             "brightRed": "#DF6C75",
-            "brightWhite": "#FFFFFF",
+            "brightWhite": "#737680",
             "brightYellow": "#9C6500",
             "cursorColor": "#4F525D",
             "cyan": "#0997B3",
@@ -42,12 +42,28 @@ uses a darker amber (`#9C6500`) for `brightYellow` to keep commands readable
 against the light background. Apply the updated scheme in Windows Terminal's
 `settings.json`; no PowerShell profile change is needed for the default style.
 
+### Readable numbers in PowerShell
+
+PSReadLine uses ANSI bright white for numbers as well as inline suggestions.
+This scheme uses medium gray (`#737680`) for `brightWhite`, making numbers
+visible on the light background without a profile change. If you previously
+set a custom number color, remove that setting from `$PROFILE` and start a new
+session, or restore the default palette slot in the current session:
+
+```powershell
+Set-PSReadLineOption -Colors @{ Number = [ConsoleColor]::White }
+```
+
+`ConsoleColor.White` selects ANSI bright white, which this scheme maps to
+medium gray. Changing `brightWhite` affects both numbers and suggestions.
+
 ### Distinguishable inline suggestions in PowerShell
 
 Recent PSReadLine versions use dim, italic ANSI bright white for inline
-predictions. This scheme sets `brightWhite` to `#FFFFFF` to lighten those
-suggestions, while `white` is a darker gray (`#555760`) for ordinary input text.
-The prediction's dim effect still applies. These palette changes also affect
+predictions. This scheme sets `brightWhite` to medium gray (`#737680`), while
+`white` is a darker gray (`#555760`) for ordinary input text. The prediction's
+dim effect still applies, so suggestions may look darker than entered text.
+These palette changes also affect
 other applications using ANSI white or bright white.
 
 If your PSReadLine version or profile uses a different prediction style, or you
